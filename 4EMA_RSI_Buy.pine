@@ -9,7 +9,9 @@ long =  (cross(fast, slow13) and fast > slow13) and
         (cross(fast, slow21) and fast > slow21) and
         (cross(fast, slow55) and fast > slow55)
                      
-short = cross(fast, slow13) and fast <= slow13
+short = (cross(fast, slow13) and fast <= slow13) or
+        (cross(fast, slow21) and fast <= slow21) or
+        (cross(fast, slow55) and fast <= slow55)
 
 rsiFilter = rsi(close, 14)
 
