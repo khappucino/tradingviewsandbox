@@ -5,17 +5,13 @@ slow13 = ema(src, 13)
 slow21 = ema(src, 21)
 slow55 = ema(src, 55)
 
-long =  (cross(fast, slow13) and fast > slow13) and
-        (cross(fast, slow21) and fast > slow21) and
-        (cross(fast, slow55) and fast > slow55)
-                     
-short = (cross(fast, slow13) and fast <= slow13) or
-        (cross(fast, slow21) and fast <= slow21) or
-        (cross(fast, slow55) and fast <= slow55)
+long =  (cross(fast, slow13) and fast > slow13 and fast > slow21 and fast > slow55) or
+        (cross(fast, slow21) and fast > slow13 and fast > slow21 and fast > slow55) or
+        (cross(fast, slow55) and fast > slow13 and fast > slow21 and fast > slow55)
 
 rsiFilter = rsi(close, 14)
 
-alertcondition(long and rsiFilter > 60, title='buy', message='buy')
+alertcondition(long and rsiFilter > 50, title='buy', message='buy')
 
 plot(fast, color=red, linewidth=4)
 plot(slow13, color=aqua, linewidth=4)
