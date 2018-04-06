@@ -1,0 +1,28 @@
+study("8,13,21,55 EMA with RSI Filter BUY", overlay=true)
+src = input(close)
+fast = ema(src, 8)
+slow13 = ema(src, 13)
+slow21 = ema(src, 21)
+slow55 = ema(src, 55)
+
+long =  (cross(fast, slow13) and fast > slow13 and fast > slow21 and fast > slow55) or
+        (cross(fast, slow21) and fast > slow13 and fast > slow21 and fast > slow55) or
+        (cross(fast, slow55) and fast > slow13 and fast > slow21 and fast > slow55)
+        
+        
+short = (cross(fast, slow13) and (fast <= slow13 or fast <= slow21 or fast <= slow55)) or
+        (cross(fast, slow21) and (fast <= slow13 or fast <= slow21 or fast <= slow55)) or
+        (cross(fast, slow55) and (fast <= slow13 or fast <= slow21 or fast <= slow55))
+        
+rsiFilter = rsi(close, 14)
+
+plotarrow(short ? -1 : 0, colorup=red, maxheight=25, minheight=15)
+plotarrow(long ? 1 : 0, colordown=lime, maxheight=25, minheight=15)
+
+
+alertcondition(long and rsiFilter > 50, title='buy', message='buy')
+alertcondition(short and rsiFilter < 50, title='sell', message='sell')
+plot(fast, color=blue, linewidth=2)
+plot(slow13, color=green, linewidth=2)
+plot(slow21, color=yellow, linewidth=2)
+plot(slow55, color=red, linewidth=2)
